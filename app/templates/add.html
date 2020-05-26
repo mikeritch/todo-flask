@@ -1,0 +1,17 @@
+{% block add %}
+
+<form action="{{ url_for("add") }}" method="post" name="new">
+    {{ form.csfr_token }}
+    {{ form.title(size=40) }}
+    {% for error in form.title.errors %}
+    <div class="alert alert-danger" role="alert">
+        [{{ error }}]
+    </div>
+    <br>
+    {% endfor %}
+    <!-- {{ form.description(size=200) }}
+    {{ form.due_date }} -->
+    <input type="submit" value="Add">
+</form>
+
+{% endblock add %}
