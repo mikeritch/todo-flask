@@ -9,6 +9,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Sign In")
 
 class AddItemForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
-    description = TextAreaField("Describe your To Do")
-    due_date = DateField(label="dd-mm-yy", format="%d-%m-%y")
+    title = StringField(label="Title", validators=[DataRequired()])
+    description = StringField(label="Description",)
+    #due_date = DateField(label="Due Date")
+    add_button = SubmitField(label="")
