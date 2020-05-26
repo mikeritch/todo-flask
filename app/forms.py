@@ -10,6 +10,6 @@ class LoginForm(FlaskForm):
 
 class AddItemForm(FlaskForm):
     title = StringField(label="Title", validators=[DataRequired()])
-    description = StringField(label="Description",)
+    description = StringField(label="Description")
     #due_date = DateField(label="Due Date")
     add_button = SubmitField(label="")
