@@ -10,26 +10,31 @@ from app.models import User, Todo
 def index():
     """Main page for todo list"""
     add = AddItemForm()
-    todos = Todo.query.filter_by(_is_deleted=False).all()
-    return render_template("index.html", title= 'To Do List', form=add, todos=todos)
+    todos = Todo.fetch_all()
+    return render_template("index.html", title= 'To Do List', form=add, todos=todos, update=update)
 
 @app.route("/add", methods=["POST"])
 def add():
-    """HTTP Post request to add todo item to db"""
+    """ADD ITEM: HTTP Post request to add todo item to db"""
     add = AddItemForm()
     new = Todo(title=add.title.data, description=add.description.data)
     Todo.add_todo(new)
-    return redirect(url_for("index"))
+    return redirect(url_for("index", _anchor="title"))
+
+@app.route("/update/<todo_id>", methods=["GET", "PUT", "POST"])
+def update(todo_id):
+    update = todo_id
+    return redirect(url_for("index", _anchor="", update=update))
 
 @app.route("/delete/<todo_id>", methods=["GET", "POST"])
 def delete(todo_id):
-    """Marking todo item for deletion. Does not carry out database query"""
+    """DELETE ITEM: Marking todo item for deletion. Does not carry out database query"""
     Todo.delete_todo(todo_id)
-    return redirect(url_for("index"))
+    return redirect(url_for("index", _anchor="todolist_wrapper"))
 
 @app.route("/recycle")
 def recycle():
-    """Carries out database garbage collection, drops instances in db marked for deletion"""
+    """DB CLEANUP: Carries out database garbage collection, drops instances in db marked for deletion"""
     Todo.recycle()
     return redirect(url_for("index"))
 

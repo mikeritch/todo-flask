@@ -42,6 +42,9 @@ class Todo(db.Model):
     def __repr__(self):
         return f"Todo {self.title}"
 
+    def fetch_all():
+        return Todo.query.filter_by(_is_deleted=False).all()
+
     def add_todo(self):
         db.session.add(self)
         return db.session.commit()

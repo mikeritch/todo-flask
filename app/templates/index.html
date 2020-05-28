@@ -11,14 +11,27 @@
         <p class="lead">Making a simple application using Flask / SQLite and caffeine</p>
       </div>
       <div class="col-lg-12 mt-5">
-        <ul class="list-unstyled list-group">
+        <ul class="list-unstyled list-group" id="todolist_wrapper">
           {% for i in todos %}
           <li>
             <div class="list-group-item d-flex justify-content-between align-items-center">
+              {% if update == True %}
+
+              <form action="{{ url_for('update') }}" method="put" name="update">
+                <div class="input-group">
+                  {{ render_field(form.title, class="form-control", value=i.title) }}
+                  {{ render_field(form.description, class="form-control", value=i.description) }}
+                  <span class="input-group-append">{{ render_field(form.add_button, value="Update", class="btn btn-outline-primary") }}</span>
+                </div>
+              </form>
+
+              {% elif update != True %}
               <a href="">{{ i.title }}</a>
               <span>{{ i.description }}</span>
               <span>{{ i.due_date }}</span>
               <a href="{{ url_for('delete', todo_id=i.todo_id) }}"><span class="badge material-icons">delete</span></a>
+              {% endif %}
+              
             </div>
             
           </li>
@@ -27,11 +40,11 @@
             <div class="list-group-item">
 
               
-              <form action="{{ url_for("add") }}" method="post" name="new">
+              <form action="{{ url_for('add') }}" method="post" name="new">
                 <div class="input-group">
-                  {{ render_field(form.title, class="form-control input-group-prepend", placeholder="Title") }}
+                  {{ render_field(form.title, class="form-control", placeholder="Title") }}
                   {{ render_field(form.description, class="form-control", placeholder="Description") }}
-                  {{ render_field(form.add_button, value="Add", class="btn btn-outline-primary") }}
+                  <span class="input-group-append">{{ render_field(form.add_button, value="Add", class="btn btn-outline-primary") }}</span>
                 </div>
               </form>
             </div>
